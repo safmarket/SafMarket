@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>SafMarket — Электроника в Перми. Купить и продать</title>
   <meta name="description" content="SafMarket — покупаю и продаю электронику в Перми. Каталог техники, личная встреча, проверка на месте. Без доставки, без рисков." />
   <meta name="keywords" content="электроника Пермь, купить электронику Пермь, продать телефон Пермь, б/у техника Пермь, SafMarket" />
@@ -10,6 +11,7 @@
   <meta property="og:description" content="Покупаю и продаю электронику в Перми. Личная встреча, проверка на месте." />
   <meta property="og:type" content="website" />
   <meta name="robots" content="index, follow" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
@@ -17,26 +19,26 @@
 </head>
 <body>
 
-  <!-- ШАПКА -->
+  <!-- ================= ШАПКА ================= -->
   <header class="header">
     <div class="container header-content">
       <a href="#home" class="logo">SafMarket</a>
-      <button class="burger" id="burger" aria-label="Меню">
+      <div class="burger" id="burger" onclick="toggleBurger()">
         <span></span><span></span><span></span>
-      </button>
+      </div>
       <nav class="nav" id="nav">
-        <a href="#home">Главная</a>
-        <a href="#catalog">Каталог</a>
-        <a href="#cart">Корзина <span id="cart-count" class="cart-count">0</span></a>
-        <a href="#how">Как заказать</a>
-        <a href="#buyback">Продать</a>
-        <a href="#faq">Вопросы</a>
-        <a href="#contacts">Контакты</a>
+        <a href="#home" onclick="closeBurger()">Главная</a>
+        <a href="#catalog" onclick="closeBurger()">Каталог</a>
+        <a href="#cart" onclick="closeBurger()">Корзина <span id="cart-count" class="cart-count">0</span></a>
+        <a href="#how" onclick="closeBurger()">Как заказать</a>
+        <a href="#buyback" onclick="closeBurger()">Продать</a>
+        <a href="#faq" onclick="closeBurger()">Вопросы</a>
+        <a href="#contacts" onclick="closeBurger()">Контакты</a>
       </nav>
     </div>
   </header>
 
-  <!-- ГЛАВНАЯ -->
+  <!-- ================= ГЛАВНАЯ ================= -->
   <section id="home" class="hero">
     <div class="container hero-wrapper">
       <div class="hero-left">
@@ -60,11 +62,12 @@
     </div>
   </section>
 
-  <!-- КАТАЛОГ -->
+  <!-- ================= КАТАЛОГ ================= -->
   <section id="catalog" class="products">
     <div class="container">
       <h2 class="section-title">Каталог электроники</h2>
       <p class="section-subtitle">Нажмите на товар, чтобы увидеть подробности</p>
+
       <div class="catalog-filters">
         <input type="text" id="search-input" class="search-input" placeholder="Поиск по названию..." />
         <div class="filter-row">
@@ -81,25 +84,25 @@
           <button class="filter-btn" data-filter="price" data-value="5000+">от 5 000 ₽</button>
         </div>
       </div>
+
       <div id="product-grid" class="product-grid"></div>
       <div id="no-results" class="no-results" style="display:none;">
         <p>Ничего не найдено</p>
         <p class="no-results-hint">Попробуйте изменить поиск или фильтры</p>
       </div>
-
-      <!-- ПРОДАННЫЕ ТОВАРЫ -->
-      <div id="sold-section" style="margin-top:60px;">
-        <h2 class="section-title">Проданные товары</h2>
-        <p class="section-subtitle">Техника, которая уже нашла нового хозяина</p>
-        <div id="sold-grid" class="product-grid"></div>
-        <div id="sold-empty" class="no-results">
-          <p>Проданных товаров пока нет</p>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- СТРАНИЦА ТОВАРА -->
+  <!-- ================= ПРОДАННЫЕ ТОВАРЫ ================= -->
+  <section id="sold" class="sold-section">
+    <div class="container">
+      <h2 class="section-title">Проданные товары</h2>
+      <div id="sold-grid" class="sold-grid"></div>
+      <div id="sold-empty" class="sold-empty">Проданных товаров пока нет</div>
+    </div>
+  </section>
+
+  <!-- ================= СТРАНИЦА ТОВАРА ================= -->
   <section id="product-page" class="product-page" style="display:none;">
     <div class="container">
       <button class="btn-back" onclick="showCatalog()">&#8592; Назад к каталогу</button>
@@ -107,7 +110,7 @@
     </div>
   </section>
 
-  <!-- КОРЗИНА -->
+  <!-- ================= КОРЗИНА ================= -->
   <section id="cart" class="cart">
     <div class="container">
       <h2 class="section-title">Ваша корзина</h2>
@@ -130,7 +133,7 @@
     </div>
   </section>
 
-  <!-- МОДАЛКА КУПИТЬ -->
+  <!-- ================= МОДАЛКА «КУПИТЬ» ================= -->
   <div id="checkout-modal" class="modal-overlay" style="display:none;">
     <div class="modal">
       <button class="modal-close" onclick="closeCheckout()">&times;</button>
@@ -152,370 +155,370 @@
           </div>
         </div>
         <div class="modal-rules">
-          <h3 class="modal-rules-title">Важные моменты</h3>
-          <ul class="modal-rules-list">
-            <li>Товар проверяется <strong>на месте</strong> перед оплатой</li>
-            <li>Возврат <strong>не предусмотрен</strong> — проверяйте внимательно</li>
-            <li>Оплата: <strong>наличные</strong> или перевод на карту</li>
-            <li>Самозанятый (НПД) · ИНН <strong>594704086210</strong> · чек через «Мой налог»</li>
-          </ul>
+          <h3 class="modal-rules-title">Реквизиты для проверки</h3>
+          <p>Самозанятый (НПД)</p>
+          <p style="font-family: monospace; font-size: 16px; color: #fff; margin-top: 8px;">ИНН: <strong>594704086210</strong></p>
         </div>
         <div class="modal-step">
           <span class="modal-icon">💬</span>
           <h3>Свяжитесь со мной</h3>
-          <p>Назовите товар, который хотите купить. Уточните наличие — экономим время.</p>
-          <a href="https://t.me/safamerka" target="_blank" class="btn btn-tg btn-send-order">Написать в Telegram</a>
-          <a href="https://vk.com/saftorg1" target="_blank" class="btn btn-vk btn-send-order">Написать ВКонтакте</a>
-          <a href="tel:+79523201359" class="btn btn-phone">📞 Позвонить: +7 (952) 320-13-59</a>
+          <p>Назовите товар, который хотите купить. Желательно отправьте скриншот из каталога. Уточните наличие — экономим время.</p>
         </div>
-        <button class="btn-close-modal" onclick="closeCheckout()">Закрыть</button>
+        <div class="modal-step">
+          <span class="modal-icon">📍</span>
+          <h3>Встреча в Перми</h3>
+          <p>Договариваемся об удобном месте. Проверяете товар на месте. Оплата наличными или переводом.</p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-send-order" onclick="sendOrder()">Оформить заказ</button>
+          <button class="btn-close-modal" onclick="closeCheckout()">Закрыть</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- МОДАЛКА ПРОДАТЬ -->
-  <div id="sell-modal" class="modal-overlay" style="display:none;">
-    <div class="modal">
-      <button class="modal-close" onclick="closeSell()">&times;</button>
-      <h2 class="modal-title">Как продать</h2>
-      <div class="modal-body">
-        <div class="modal-step">
-          <span class="modal-icon">📸</span>
-          <h3>1. Пришлите фото и описание</h3>
-          <p>Сделайте несколько фото товара, опишите состояние и модель. Отправьте в Telegram или ВКонтакте.</p>
-        </div>
-        <div class="modal-step">
-          <span class="modal-icon">💰</span>
-          <h3>2. Получите оценку</h3>
-          <p>Изучу фото и описание, назову честную цену. Если устраивает — договариваемся о встрече.</p>
-        </div>
-        <div class="modal-step">
-          <span class="modal-icon">🤝</span>
-          <h3>3. Встреча и оплата</h3>
-          <p>Встречаемся в Перми, проверяю товар на месте и сразу оплачиваю — наличными или переводом.</p>
-        </div>
-        <div class="modal-rules modal-rules-buyback">
-          <h3 class="modal-rules-title">Правила</h3>
-          <ul class="modal-rules-list">
-            <li>Принимаю <strong>исправную</strong> электронику</li>
-            <li>Цена зависит от <strong>состояния и модели</strong></li>
-            <li>Оплата <strong>сразу</strong> при встрече</li>
-            <li>Самозанятый (НПД) · ИНН <strong>594704086210</strong></li>
-          </ul>
-        </div>
-        <a href="https://t.me/safamerka" target="_blank" class="btn btn-tg btn-send-order">Написать в Telegram</a>
-        <a href="https://vk.com/saftorg1" target="_blank" class="btn btn-vk btn-send-order">Написать ВКонтакте</a>
-        <a href="tel:+79523201359" class="btn btn-phone">📞 Позвонить: +7 (952) 320-13-59</a>
-        <button class="btn-close-modal" onclick="closeSell()">Закрыть</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- КАК ЗАКАЗАТЬ -->
+  <!-- ================= КАК ЗАКАЗАТЬ ================= -->
   <section id="how" class="how">
     <div class="container">
       <h2 class="section-title">Как заказать</h2>
       <p class="section-subtitle">Простой процесс покупки и продажи</p>
       <div class="steps">
-        <div class="step"><div class="step-number">1</div><h3>Выберите товар</h3><p>В каталоге или через поиск</p></div>
-        <div class="step"><div class="step-number">2</div><h3>Добавьте в корзину</h3><p>Или сразу свяжитесь для уточнения</p></div>
-        <div class="step"><div class="step-number">3</div><h3>Согласуйте встречу</h3><p>Личная встреча в Перми, проверка товара</p></div>
-        <div class="step"><div class="step-number">4</div><h3>Оплатите и заберите</h3><p>Наличными или переводом</p></div>
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Выберите товар</h3>
+          <p>В каталоге или через поиск</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Добавьте в корзину</h3>
+          <p>Или сразу свяжитесь для уточнения</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Согласуйте встречу</h3>
+          <p>Личная встреча в Перми, проверка товара</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Оплатите и заберите</h3>
+          <p>Наличными или переводом</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ПРОДАТЬ -->
+  <!-- ================= ПРОДАТЬ ТОВАР ================= -->
   <section id="buyback" class="buyback">
     <div class="container buyback-content">
       <h2 class="section-title">Продать товар</h2>
       <p class="section-subtitle">Оценю и выкуплю вашу электронику</p>
-      <div class="buyback-text">
-        <p>Пришлите фото и описание товара в Telegram или ВКонтакте. Я назову цену, мы договоримся о встрече, проверим технику и я сразу оплачу.</p>
-      </div>
+      <p>Пришлите фото и описание товара в Telegram или ВКонтакте. Я назову цену, мы договоримся о встрече, проверим технику и я сразу оплачу.</p>
       <div style="margin-top:30px;">
-        <button class="btn btn-sell" onclick="openSell()">Хочу продать</button>
+        <a href="#contacts" class="btn btn-sell">Связаться для оценки</a>
       </div>
     </div>
   </section>
 
-  <!-- ВАЖНЫЕ МОМЕНТЫ -->
+  <!-- ================= ВАЖНЫЕ МОМЕНТЫ ================= -->
   <section id="rules" class="rules">
     <div class="container">
       <h2 class="section-title">Важные моменты</h2>
       <div class="rules-grid">
-        <div class="rule-card"><span class="rule-icon">🚫</span><h3>Без доставки</h3><p>Только личная встреча в Перми</p></div>
-        <div class="rule-card"><span class="rule-icon">↩️</span><h3>Без возврата</h3><p>Проверка на месте перед оплатой</p></div>
-        <div class="rule-card"><span class="rule-icon">✅</span><h3>Честная оценка</h3><p>Для выкупа и продажи техники</p></div>
-        <div class="rule-card"><span class="rule-icon">🧾</span><h3>Самозанятый (НПД)</h3><p>ИНН 594704086210 · чек через «Мой налог»</p></div>
+        <div class="rule-card">
+          <span class="rule-icon">🚫</span>
+          <h3>Без доставки</h3>
+          <p>Только личная встреча в Перми</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">↩️</span>
+          <h3>Без возврата</h3>
+          <p>Проверка на месте перед оплатой</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">🆔</span>
+          <h3>Самозанятый (НПД)</h3>
+          <p style="font-family: monospace; color: #fff;">ИНН: 594704086210</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- ================= FAQ ================= -->
   <section id="faq" class="faq">
     <div class="container faq-list">
       <h2 class="section-title">FAQ</h2>
       <div class="faq-item">
-        <button class="faq-question"><span>Как происходит покупка?</span><span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Вы выбираете товар, мы договариваемся о встрече в Перми. Вы проверяете технику на месте, затем оплачиваете наличными или переводом. Без доставки и без возврата.</div>
+        <button class="faq-question">
+          <span>Как происходит покупка?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          Вы выбираете товар, мы договариваемся о встрече в Перми. Вы проверяете технику на месте, затем оплачиваете наличными или переводом. Без доставки и без возврата.
+        </div>
       </div>
       <div class="faq-item">
-        <button class="faq-question"><span>Можно ли вернуть товар?</span><span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Нет, возврат не предусмотрен. Поэтому проверка на месте обязательна.</div>
+        <button class="faq-question">
+          <span>Можно ли вернуть товар?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          Нет, возврат не предусмотрен. Поэтому проверка на месте обязательна.
+        </div>
       </div>
       <div class="faq-item">
-        <button class="faq-question"><span>Где встречаемся?</span><span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">В любом удобном месте в Перми по согласованию.</div>
+        <button class="faq-question">
+          <span>Где встречаемся?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          В любом удобном месте в Перми по согласованию.
+        </div>
       </div>
       <div class="faq-item">
-        <button class="faq-question"><span>Выдаёте ли чек?</span><span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Да, я самозанятый (НПД), ИНН 594704086210. Чек отправляю через приложение «Мой налог» после оплаты.</div>
+        <button class="faq-question">
+          <span>Выдаёте ли чек?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          Да, я самозанятый (НПД), ИНН 594704086210. Чек отправлю через «Мой налог» после оплаты.
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- КОНТАКТЫ -->
+  <!-- ================= КОНТАКТЫ ================= -->
   <section id="contacts" class="contacts">
-    <div class="container">
-      <h2 class="section-title">Контакты</h2>
-      <p class="section-subtitle">Свяжитесь любым удобным способом</p>
-      <div class="contacts-content">
-        <div class="contact-item">
-          <span class="contact-icon">📞</span>
-          <h3>Телефон</h3>
-          <a href="tel:+79523201359" class="contact-link">+7 (952) 320-13-59</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-icon">✈️</span>
-          <h3>Telegram</h3>
-          <a href="https://t.me/safamerka" class="contact-link" target="_blank">t.me/safamerka</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-icon">💬</span>
-          <h3>ВКонтакте</h3>
-          <a href="https://vk.com/saftorg1" class="contact-link" target="_blank">vk.com/saftorg1</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-icon">🆔</span>
-          <h3>Реквизиты</h3>
-          <p style="font-size:15px; color:#ccc;">Самозанятый (НПД)</p>
-          <p style="font-family:monospace; font-size:17px; color:#fff; margin-top:8px;">ИНН: <strong>594704086210</strong></p>
-        </div>
+    <div class="container contacts-content">
+      <h2 class="section-title" style="grid-column:1/-1;">Контакты</h2>
+      <p class="section-subtitle" style="grid-column:1/-1;">Свяжитесь любым удобным способом</p>
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <h3>Телефон</h3>
+        <p><a href="tel:+79523201359" class="contact-link">+7 (952) 320-13-59</a></p>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">✉️</span>
+        <h3>Telegram</h3>
+        <p><a href="https://t.me/safamerka" class="contact-link" target="_blank">t.me/safamerka</a></p>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">💬</span>
+        <h3>ВКонтакте</h3>
+        <p><a href="https://vk.com/saftorg1" class="contact-link" target="_blank">vk.com/saftorg1</a></p>
+      </div>
+      <div class="contact-item" style="grid-column: 1/-1; max-width: 400px; margin: 0 auto;">
+        <span class="contact-icon">🆔</span>
+        <h3>Реквизиты</h3>
+        <p style="font-size: 15px; color: #ccc;">Самозанятый (НПД)</p>
+        <p style="font-family: monospace; font-size: 17px; color: #fff; margin: 8px 0 0 0;">ИНН: <strong>594704086210</strong></p>
       </div>
     </div>
   </section>
 
-  <!-- ПОДВАЛ -->
+  <!-- ================= ПОДВАЛ ================= -->
   <footer class="footer">
-    <div class="footer-content">
+    <div class="container footer-content">
       <a href="#home" class="logo-footer">SafMarket</a>
-      <p class="footer-status">✅ Самозанятый (НПД) · ИНН 594704086210 · 🧾 Чек через «Мой налог»</p>
-      <div class="footer-social">
-        <a href="https://t.me/safamerka" target="_blank" class="footer-social-link">
-          <img src="telegram.webp" alt="Telegram" class="social-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
-          <span style="display:none;">Telegram</span>
-          <span class="footer-social-text">Telegram</span>
-        </a>
-        <a href="https://vk.com/saftorg1" target="_blank" class="footer-social-link">
-          <img src="vk.webp" alt="ВКонтакте" class="social-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
-          <span style="display:none;">ВКонтакте</span>
-          <span class="footer-social-text">ВКонтакте</span>
-        </a>
-      </div>
-      <p style="font-size:13px; color:#666; margin-top:10px;">© 2024 SafMarket · Пермь</p>
+      <p class="footer-status">✅ Самозанятый (НПД) · ИНН <strong>594704086210</strong> · 🧾 Чек через «Мой налог»</p>
     </div>
   </footer>
 
-  <!-- ======================== JAVASCRIPT ======================== -->
+  <!-- ================= ЛАЙТБОКС ================= -->
+  <div id="lightbox" class="lightbox" style="display:none;">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-arrow prev" id="lb-prev" onclick="lbNav(-1)">&#8249;</button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="" />
+    <button class="lightbox-arrow next" id="lb-next" onclick="lbNav(1)">&#8250;</button>
+    <div id="lightbox-counter" class="lightbox-counter"></div>
+  </div>
+
   <script>
-  // ===== ТОВАРЫ =====
-  const products = [
+  // ===== ДАННЫЕ =====
+  var products = [
     {
-      id: 'iphone12',
-      name: 'iPhone 12',
-      icon: '📱',
+      id: 'p1',
+      name: 'iPhone 12 (64GB, белый)',
       category: 'phones',
       price: 9500,
-      short: '64GB, белый, аккумулятор 77%. В комплекте телефон и чехол.',
-      description: 'iPhone 12, 64GB, белый. Аккумулятор родной, 77%. В комплекте: телефон и чехол. Есть небольшая царапина на стекле.',
-      images: ['iphone12-1.jpg', 'iphone12-2.jpg'],
-      note: 'Есть небольшая царапина на стекле.',
-      specs: { 'Модель': 'iPhone 12', 'Память': '64GB', 'Цвет': 'Белый', 'Аккумулятор': 'Родной, 77%', 'Комплект': 'Телефон, чехол' }
+      icon: '📱',
+      photos: ['iphone12-1.jpg', 'iphone12-2.jpg'],
+      short: '64GB, белый, АКБ 77%',
+      specs: [
+        { k: 'Модель', v: 'iPhone 12 🍎' },
+        { k: 'Память', v: '64GB 🔅' },
+        { k: 'Цвет', v: 'Белый' },
+        { k: 'Аккумулятор', v: 'Родной, 77% 🔋' }
+      ],
+      includes: ['Телефон ☑️', 'Чехол ☑️'],
+      note: 'Есть небольшая царапина на стекле.'
     },
     {
-      id: 'headphones',
-      name: 'Беспроводные наушники',
-      icon: '🎧',
+      id: 'p2',
+      name: 'Беспроводные наушники (чёрные)',
       category: 'audio',
       price: 500,
-      short: 'Чёрные, могут подключаться по проводу, есть доп. разъёмы.',
-      description: 'Беспроводные наушники, чёрные. Могут подключаться по проводу и имеют дополнительные разъёмы.',
-      images: ['headphones-1.jpg', 'headphones-2.jpg'],
-      note: 'Могут подключаться по проводу и имеют дополнительные разъёмы.',
-      specs: { 'Модель': 'Беспроводные наушники', 'Цвет': 'Чёрный', 'Подключение': 'Беспроводное + проводное', 'Разъёмы': 'Дополнительные разъёмы' }
+      icon: '🎧',
+      photos: ['headphones-1.jpg', 'headphones-2.jpg'],
+      short: 'Чёрные, можно подключить по проводу',
+      specs: [
+        { k: 'Модель', v: 'Беспроводные наушники' },
+        { k: 'Цвет', v: 'Чёрный' }
+      ],
+      includes: [],
+      note: 'Могут подключаться по проводу и имеют дополнительные разъёмы.'
     },
     {
-      id: 'miband5',
+      id: 'p3',
       name: 'Xiaomi Mi Smart Band 5',
-      icon: '⌚',
       category: 'wearables',
       price: 300,
-      short: 'В комплекте часы и зарядка. Есть царапины на стекле.',
-      description: 'Xiaomi Mi Smart Band 5. В комплекте: часы и зарядка. Есть царапины на стекле.',
-      images: ['miband5-1.jpg'],
-      note: 'Есть царапины на стекле.',
-      specs: { 'Модель': 'Xiaomi Mi Smart Band 5', 'Комплект': 'Часы, зарядка' }
+      icon: '⌚',
+      photos: ['miband5-1.jpg'],
+      short: 'Фитнес-браслет, с зарядкой',
+      specs: [
+        { k: 'Модель', v: 'Xiaomi Mi Smart Band 5' }
+      ],
+      includes: ['Часы ☑️', 'Зарядка ☑️'],
+      note: 'Есть царапины на стекле.'
     },
     {
-      id: 'keyboard',
-      name: 'Проводная клавиатура K-401BU',
-      icon: '⌨️',
+      id: 'p4',
+      name: 'Клавиатура K-401BU (проводная)',
       category: 'accessories',
       price: 300,
-      short: 'После чистки, в хорошем состоянии. Подойдёт для офиса.',
-      description: 'Проводная клавиатура K-401BU. Была чистка, в хорошем состоянии. Подойдёт для офиса.',
-      images: ['keyboard-1.jpg'],
-      note: 'Была чистка, в хорошем состоянии. Подойдёт для офиса.',
-      specs: { 'Модель': 'K-401BU', 'Тип': 'Проводная', 'Состояние': 'После чистки, хорошее' }
+      icon: '⌨️',
+      photos: ['keyboard-1.jpg'],
+      short: 'Офисная клавиатура, чистая',
+      specs: [
+        { k: 'Модель', v: 'K-401BU (проводная)' }
+      ],
+      includes: [],
+      note: 'Была чистка, в хорошем состоянии. Подойдёт для офиса.'
     }
   ];
 
-  // ===== ПРОДАННЫЕ ТОВАРЫ =====
-  const soldProducts = [];
+  var soldProducts = [];
 
-  // ===== КОРЗИНА =====
-  let cart = [];
+  var cart = [];
+  var currentFilter = { category: 'all', price: 'all' };
+  var currentSearch = '';
 
-  // ===== ОТРИСОВКА КАТАЛОГА =====
+  // ===== БУРГЕР =====
+  function toggleBurger() {
+    document.getElementById('burger').classList.toggle('active');
+    document.getElementById('nav').classList.toggle('open');
+  }
+  function closeBurger() {
+    document.getElementById('burger').classList.remove('active');
+    document.getElementById('nav').classList.remove('open');
+  }
+
+  // ===== РЕНДЕР КАТАЛОГА =====
   function renderProducts() {
-    const grid = document.getElementById('product-grid');
-    const noResults = document.getElementById('no-results');
-    const search = document.getElementById('search-input').value.toLowerCase();
-    const activeCategory = document.querySelector('.filter-btn[data-filter="category"].active')?.dataset.value || 'all';
-    const activePrice = document.querySelector('.filter-btn[data-filter="price"].active')?.dataset.value || 'all';
-
-    const filtered = products.filter(p => {
-      const matchSearch = p.name.toLowerCase().includes(search) || p.short.toLowerCase().includes(search);
-      const matchCat = activeCategory === 'all' || p.category === activeCategory;
-      let matchPrice = true;
-      if (activePrice === '0-2000') matchPrice = p.price < 2000;
-      else if (activePrice === '2000-5000') matchPrice = p.price >= 2000 && p.price < 5000;
-      else if (activePrice === '5000+') matchPrice = p.price >= 5000;
-      return matchSearch && matchCat && matchPrice;
+    var grid = document.getElementById('product-grid');
+    var noResults = document.getElementById('no-results');
+    var filtered = products.filter(function(p) {
+      if (currentFilter.category !== 'all' && p.category !== currentFilter.category) return false;
+      if (currentSearch && p.name.toLowerCase().indexOf(currentSearch.toLowerCase()) === -1) return false;
+      if (currentFilter.price !== 'all') {
+        if (currentFilter.price === '0-2000' && p.price >= 2000) return false;
+        if (currentFilter.price === '2000-5000' && (p.price < 2000 || p.price > 5000)) return false;
+        if (currentFilter.price === '5000+' && p.price < 5000) return false;
+      }
+      return true;
     });
 
-    grid.innerHTML = '';
     if (filtered.length === 0) {
+      grid.innerHTML = '';
       noResults.style.display = 'block';
-      grid.style.display = 'none';
       return;
     }
     noResults.style.display = 'none';
-    grid.style.display = 'grid';
 
-    filtered.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.onclick = () => showProduct(p.id);
-      card.innerHTML = `
-        <div class="card-image" style="background-image:url('${p.images[0]}'); background-size:cover; background-position:center;">
-          ${p.images[0] ? '' : p.icon}
-        </div>
-        <h3 class="model-name">${p.name}</h3>
-        <p class="description">${p.short}</p>
-        <span class="price">${p.price.toLocaleString('ru-RU')} ₽</span>
-        <button class="btn-small" onclick="event.stopPropagation(); addToCart('${p.id}')">В корзину</button>
-      `;
-      // Fallback if image doesn't load
-      const imgEl = card.querySelector('.card-image');
-      imgEl.style.backgroundImage = `url('${p.images[0]}')`;
-      imgEl.onerror = function() { this.style.backgroundImage = 'none'; this.textContent = p.icon; };
-      grid.appendChild(card);
-    });
+    grid.innerHTML = filtered.map(function(p) {
+      var photoHtml = p.photos && p.photos.length > 0
+        ? '<img class="product-photo" src="' + p.photos[0] + '" alt="' + p.name + '" onclick="event.stopPropagation(); openLightbox([' + p.photos.map(function(ph){return "'"+ph+"'";}).join(',') + '], 0)" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" /><div class="product-photo-fallback" style="display:none;">' + p.icon + '</div>'
+        : '<div class="product-photo-fallback">' + p.icon + '</div>';
+
+      var noteHtml = p.note ? '<div class="product-note">⚠️ ' + p.note + '</div>' : '';
+
+      return '<div class="product-card" onclick="showProduct(\'' + p.id + '\')">' +
+        photoHtml +
+        '<div class="product-info">' +
+          '<div class="product-name">' + p.name + '</div>' +
+          '<div class="product-short">' + p.short + '</div>' +
+          noteHtml +
+          '<div class="product-price">' + p.price.toLocaleString('ru-RU') + ' ₽</div>' +
+          '<button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(\'' + p.id + '\')">В корзину</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
   }
 
-  // ===== ОТРИСОВКА ПРОДАННЫХ =====
+  // ===== РЕНДЕР ПРОДАННЫХ =====
   function renderSold() {
-    const grid = document.getElementById('sold-grid');
-    const empty = document.getElementById('sold-empty');
+    var grid = document.getElementById('sold-grid');
+    var empty = document.getElementById('sold-empty');
     if (soldProducts.length === 0) {
+      grid.innerHTML = '';
       grid.style.display = 'none';
       empty.style.display = 'block';
       return;
     }
     empty.style.display = 'none';
     grid.style.display = 'grid';
-    grid.innerHTML = '';
-    soldProducts.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'card sold-card';
-      card.innerHTML = `
-        <div class="card-image" style="background-image:url('${p.images[0]}'); background-size:cover; background-position:center; filter:grayscale(0.7);">
-          ${p.images[0] ? '' : p.icon}
-        </div>
-        <h3 class="model-name">${p.name}</h3>
-        <p class="description">${p.short}</p>
-        <span class="price" style="text-decoration:line-through; color:#666;">${p.price.toLocaleString('ru-RU')} ₽</span>
-        <span class="sold-badge">⛔ Продано</span>
-      `;
-      grid.appendChild(card);
-    });
+    grid.innerHTML = soldProducts.map(function(p) {
+      var photoHtml = p.photos && p.photos.length > 0
+        ? '<img class="product-photo" src="' + p.photos[0] + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" /><div class="product-photo-fallback" style="display:none;">' + (p.icon || '📦') + '</div>'
+        : '<div class="product-photo-fallback">' + (p.icon || '📦') + '</div>';
+      return '<div class="sold-card">' + photoHtml +
+        '<div class="product-info">' +
+          '<span class="sold-badge">⛔ Продано</span>' +
+          '<div class="product-name">' + p.name + '</div>' +
+          '<div class="sold-price">' + p.price.toLocaleString('ru-RU') + ' ₽</div>' +
+        '</div></div>';
+    }).join('');
   }
 
   // ===== СТРАНИЦА ТОВАРА =====
   function showProduct(id) {
-    const p = products.find(x => x.id === id);
+    var p = products.find(function(x) { return x.id === id; });
     if (!p) return;
-    const content = document.getElementById('product-page-content');
-    let specsHTML = '';
-    for (const [k, v] of Object.entries(p.specs)) {
-      specsHTML += `<tr><td class="specs-label">${k}</td><td class="specs-value">${v}</td></tr>`;
+
+    var galleryHtml = '';
+    if (p.photos && p.photos.length > 0) {
+      galleryHtml = '<div class="product-page-gallery">' +
+        p.photos.map(function(ph, i) {
+          return '<img src="' + ph + '" alt="' + p.name + ' фото ' + (i+1) + '" onclick="openLightbox([' + p.photos.map(function(x){return "'"+x+"'";}).join(',') + '], ' + i + ')" onerror="this.style.display=\'none\'" />';
+        }).join('') +
+        '</div>';
     }
-    let galleryHTML = '';
-    p.images.forEach((img, i) => {
-      galleryHTML += `<img src="${img}" alt="${p.name} фото ${i+1}" class="product-gallery-img" onerror="this.style.display='none';" />`;
-    });
-    content.innerHTML = `
-      <div class="product-page-header">
-        <div class="product-page-icon">${p.icon}</div>
-        <div class="product-page-info">
-          <h2 class="product-page-name">${p.name}</h2>
-          <span class="product-page-price">${p.price.toLocaleString('ru-RU')} ₽</span>
-        </div>
-      </div>
-      <div class="product-gallery">${galleryHTML}</div>
-      <p class="product-page-desc">${p.description}</p>
-      ${p.note ? `<div class="product-note">⚠️ ${p.note}</div>` : ''}
-      <div class="product-specs"><h3>Характеристики</h3><table class="specs-table">${specsHTML}</table></div>
-      <div class="product-page-actions">
-        <button class="btn" onclick="addToCart('${p.id}')">🛒 В корзину</button>
-        <a href="https://t.me/safamerka" target="_blank" class="btn btn-tg">✈️ Telegram</a>
-        <a href="tel:+79523201359" class="btn btn-phone">📞 Позвонить</a>
-      </div>
-      <div class="product-related">
-        <h3>Другие товары</h3>
-        <div class="related-grid" id="related-grid"></div>
-      </div>
-    `;
-    // Related products
-    const related = products.filter(x => x.id !== id);
-    const relatedGrid = document.getElementById('related-grid');
-    related.forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'card related-card';
-      card.onclick = () => showProduct(r.id);
-      card.innerHTML = `
-        <div class="card-image" style="background-image:url('${r.images[0]}'); background-size:cover; background-position:center;">
-          ${r.images[0] ? '' : r.icon}
-        </div>
-        <h3 class="model-name">${r.name}</h3>
-        <span class="price">${r.price.toLocaleString('ru-RU')} ₽</span>
-      `;
-      relatedGrid.appendChild(card);
-    });
+
+    var specsHtml = p.specs.map(function(s) {
+      return '<li><span>' + s.k + '</span><span>' + s.v + '</span></li>';
+    }).join('');
+
+    var includesHtml = p.includes.length > 0
+      ? '<ul class="includes-list">' + p.includes.map(function(i){return '<li>'+i+'</li>';}).join('') + '</ul>'
+      : '';
+
+    var noteHtml = p.note ? '<div class="product-page-note">⚠️ ' + p.note + '</div>' : '';
+
+    document.getElementById('product-page-content').innerHTML =
+      '<div class="product-page-content">' +
+        galleryHtml +
+        '<div class="product-page-details">' +
+          '<h2>' + p.name + '</h2>' +
+          '<div class="price">' + p.price.toLocaleString('ru-RU') + ' ₽</div>' +
+          '<ul class="specs-list">' + specsHtml + '</ul>' +
+          includesHtml +
+          noteHtml +
+          '<button class="btn" onclick="addToCart(\'' + p.id + '\')">Добавить в корзину</button>' +
+        '</div>' +
+      '</div>';
 
     document.getElementById('catalog').style.display = 'none';
+    document.getElementById('sold').style.display = 'none';
     document.getElementById('product-page').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -523,22 +526,66 @@
   function showCatalog() {
     document.getElementById('product-page').style.display = 'none';
     document.getElementById('catalog').style.display = 'block';
-    window.scrollTo({ top: document.getElementById('catalog').offsetTop - 80, behavior: 'smooth' });
+    document.getElementById('sold').style.display = 'block';
   }
 
   // ===== КОРЗИНА =====
   function addToCart(id) {
-    const p = products.find(x => x.id === id);
+    var p = products.find(function(x) { return x.id === id; });
     if (!p) return;
-    if (!cart.find(x => x.id === id)) {
-      cart.push(p);
-      updateCart();
+    var existing = cart.find(function(x) { return x.id === id; });
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ id: p.id, name: p.name, price: p.price, photo: p.photos ? p.photos[0] : '', icon: p.icon, qty: 1 });
     }
+    updateCart();
   }
 
   function removeFromCart(id) {
-    cart = cart.filter(x => x.id !== id);
+    cart = cart.filter(function(x) { return x.id !== id; });
     updateCart();
+  }
+
+  function updateCart() {
+    var count = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+    document.getElementById('cart-count').textContent = count;
+
+    var cartEmpty = document.getElementById('cart-empty');
+    var cartItems = document.getElementById('cart-items');
+    var cartTotal = document.getElementById('cart-total');
+    var cartActions = document.getElementById('cart-actions');
+
+    if (cart.length === 0) {
+      cartEmpty.style.display = 'block';
+      cartItems.style.display = 'none';
+      cartTotal.style.display = 'none';
+      cartActions.style.display = 'none';
+      return;
+    }
+
+    cartEmpty.style.display = 'none';
+    cartItems.style.display = 'grid';
+    cartTotal.style.display = 'flex';
+    cartActions.style.display = 'flex';
+
+    cartItems.innerHTML = cart.map(function(item) {
+      var photo = item.photo
+        ? '<img src="' + item.photo + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" /><div style="display:none; width:70px; height:70px; align-items:center; justify-content:center; font-size:28px; background:#222; border-radius:8px;">' + item.icon + '</div>'
+        : '<div style="width:70px; height:70px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#222; border-radius:8px;">' + item.icon + '</div>';
+
+      return '<div class="cart-item">' + photo +
+        '<div class="cart-item-info">' +
+          '<h4>' + item.name + '</h4>' +
+          '<div class="price">' + (item.price * item.qty).toLocaleString('ru-RU') + ' ₽' +
+          (item.qty > 1 ? ' (' + item.qty + ' шт.)' : '') + '</div>' +
+        '</div>' +
+        '<button class="btn-remove" onclick="removeFromCart(\'' + item.id + '\')">&times;</button>' +
+      '</div>';
+    }).join('');
+
+    var total = cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
+    document.getElementById('total-price').textContent = total.toLocaleString('ru-RU') + ' ₽';
   }
 
   function clearCart() {
@@ -546,54 +593,15 @@
     updateCart();
   }
 
-  function updateCart() {
-    const count = cart.length;
-    document.getElementById('cart-count').textContent = count;
-    const empty = document.getElementById('cart-empty');
-    const items = document.getElementById('cart-items');
-    const total = document.getElementById('cart-total');
-    const actions = document.getElementById('cart-actions');
-    if (count === 0) {
-      empty.style.display = 'flex';
-      items.style.display = 'none';
-      total.style.display = 'none';
-      actions.style.display = 'none';
-      return;
-    }
-    empty.style.display = 'none';
-    items.style.display = 'grid';
-    total.style.display = 'flex';
-    actions.style.display = 'flex';
-    items.innerHTML = '';
-    let sum = 0;
-    cart.forEach(p => {
-      sum += p.price;
-      const card = document.createElement('div');
-      card.className = 'card cart-card';
-      card.innerHTML = `
-        <div class="card-image" style="background-image:url('${p.images[0]}'); background-size:cover; background-position:center;">
-          ${p.images[0] ? '' : p.icon}
-        </div>
-        <h3 class="model-name">${p.name}</h3>
-        <span class="price">${p.price.toLocaleString('ru-RU')} ₽</span>
-        <button class="btn-remove" onclick="removeFromCart('${p.id}')">Удалить</button>
-      `;
-      items.appendChild(card);
-    });
-    document.getElementById('total-price').textContent = sum.toLocaleString('ru-RU') + ' ₽';
-  }
-
-  // ===== МОДАЛКИ =====
+  // ===== ОФОРМЛЕНИЕ =====
   function openCheckout() {
-    const items = document.getElementById('modal-order-items');
-    const totalEl = document.getElementById('modal-order-total');
-    let sum = 0;
-    items.innerHTML = '';
-    cart.forEach(p => {
-      sum += p.price;
-      items.innerHTML += `<div class="modal-order-row"><span>${p.name}</span><strong>${p.price.toLocaleString('ru-RU')} ₽</strong></div>`;
-    });
-    totalEl.innerHTML = `<div class="modal-order-total"><span>Итого:</span><strong>${sum.toLocaleString('ru-RU')} ₽</strong></div>`;
+    if (cart.length === 0) return;
+    var itemsHtml = cart.map(function(item) {
+      return '<p>' + item.name + ' × ' + item.qty + ' — ' + (item.price * item.qty).toLocaleString('ru-RU') + ' ₽</p>';
+    }).join('');
+    var total = cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
+    document.getElementById('modal-order-items').innerHTML = itemsHtml;
+    document.getElementById('modal-order-total').innerHTML = '<p style="font-weight:700; font-size:18px; color:#8a5cfd; margin-top:10px;">Итого: ' + total.toLocaleString('ru-RU') + ' ₽</p>';
     document.getElementById('checkout-modal').style.display = 'flex';
   }
 
@@ -601,44 +609,94 @@
     document.getElementById('checkout-modal').style.display = 'none';
   }
 
-  function openSell() {
-    document.getElementById('sell-modal').style.display = 'flex';
+  function sendOrder() {
+    var text = 'Здравствуйте! Хочу заказать:%0A%0A';
+    cart.forEach(function(item) {
+      text += '• ' + item.name + ' × ' + item.qty + ' — ' + (item.price * item.qty).toLocaleString('ru-RU') + ' ₽%0A';
+    });
+    var total = cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
+    text += '%0AИтого: ' + total.toLocaleString('ru-RU') + ' ₽';
+    window.open('https://t.me/safamerka?text=' + text, '_blank');
   }
 
-  function closeSell() {
-    document.getElementById('sell-modal').style.display = 'none';
+  // ===== ЛАЙТБОКС =====
+  var lbImages = [];
+  var lbIndex = 0;
+
+  function openLightbox(images, index) {
+    lbImages = images;
+    lbIndex = index;
+    document.getElementById('lightbox').style.display = 'flex';
+    updateLightbox();
   }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+
+  function lbNav(dir) {
+    lbIndex += dir;
+    if (lbIndex < 0) lbIndex = lbImages.length - 1;
+    if (lbIndex >= lbImages.length) lbIndex = 0;
+    updateLightbox();
+  }
+
+  function updateLightbox() {
+    document.getElementById('lightbox-img').src = lbImages[lbIndex];
+    document.getElementById('lightbox-img').onerror = function() {
+      this.style.display = 'none';
+    };
+    document.getElementById('lightbox-img').style.display = '';
+    var prev = document.getElementById('lb-prev');
+    var next = document.getElementById('lb-next');
+    var counter = document.getElementById('lightbox-counter');
+    if (lbImages.length > 1) {
+      prev.classList.remove('hidden');
+      next.classList.remove('hidden');
+      counter.textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+    } else {
+      prev.classList.add('hidden');
+      next.classList.add('hidden');
+      counter.textContent = '';
+    }
+  }
+
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (document.getElementById('lightbox').style.display === 'flex') {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lbNav(-1);
+      if (e.key === 'ArrowRight') lbNav(1);
+    }
+  });
 
   // ===== ФИЛЬТРЫ =====
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-      document.querySelectorAll('.filter-btn[data-filter="' + filter + '"]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var filter = btn.dataset.filter;
+      var value = btn.dataset.value;
+      document.querySelectorAll('.filter-btn[data-filter="' + filter + '"]').forEach(function(b) {
+        b.classList.remove('active');
+      });
       btn.classList.add('active');
+      currentFilter[filter] = value;
       renderProducts();
     });
   });
 
   // ===== ПОИСК =====
-  document.getElementById('search-input').addEventListener('input', renderProducts);
+  document.getElementById('search-input').addEventListener('input', function() {
+    currentSearch = this.value;
+    renderProducts();
+  });
 
   // ===== FAQ =====
-  document.querySelectorAll('.faq-question').forEach(q => {
-    q.addEventListener('click', () => {
-      const answer = q.nextElementSibling;
-      answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-    });
-  });
-
-  // ===== БУРГЕР-МЕНЮ =====
-  const burger = document.getElementById('burger');
-  const nav = document.getElementById('nav');
-  burger.addEventListener('click', () => {
-    nav.classList.toggle('nav-open');
-  });
-  document.querySelectorAll('.nav a').forEach(a => {
-    a.addEventListener('click', () => {
-      nav.classList.remove('nav-open');
+  document.querySelectorAll('.faq-question').forEach(function(q) {
+    q.addEventListener('click', function() {
+      this.parentElement.classList.toggle('active');
     });
   });
 
