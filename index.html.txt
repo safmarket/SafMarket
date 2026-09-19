@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafMarket</title>
+
+  <!-- Подключаем крутой шрифт для логотипа -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= ШАПКА ================= -->
+  <header class="header">
+    <div class="container header-content">
+      <a href="#home" class="logo">SafMarket</a>
+      <nav class="nav">
+        <a href="#home">Главная</a>
+        <a href="#catalog">Каталог</a>
+        <a href="#about">О нас</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= ГЛАВНАЯ ================= -->
+  <main class="main">
+    <section id="home" class="hero">
+      <div class="container hero-content">
+        <h1>Добро пожаловать в <span class="accent">SafMarket</span></h1>
+        <p>Лучшие товары по выгодным ценам. Доставка по всей России.</p>
+        <a href="#catalog" class="btn">Перейти в каталог</a>
+      </div>
+    </section>
+
+    <!-- ================= КАТАЛОГ ================= -->
+    <section id="catalog" class="products">
+      <div class="container">
+        <h2 class="section-title">Каталог товаров</h2>
+        <p class="section-subtitle">Выберите категорию и найдите то, что нужно именно вам</p>
+
+        <!-- Категория 1: Электроника -->
+        <h3 class="category-title">Электроника</h3>
+        <div class="product-grid">
+          <div class="card">
+            <div class="card-image">📷</div>
+            <h3>Проводная гарнитура</h3>
+            <p>Наушники с микрофоном, шумоподавление, 3.5 мм</p>
+            <span class="price">1 990 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+          <div class="card">
+            <div class="card-image">🔊</div>
+            <h3>Портативная колонка</h3>
+            <p>Bluetooth 5.0, влагозащита IPX7, 10 часов работы</p>
+            <span class="price">2 490 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+          <div class="card">
+            <div class="card-image">⌚</div>
+            <h3>Смарт-часы</h3>
+            <p>Шагомер, пульсометр, уведомления, 14 дней батареи</p>
+            <span class="price">3 990 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+        </div>
+
+        <!-- Категория 2: Аксессуары -->
+        <h3 class="category-title">Аксессуары</h3>
+        <div class="product-grid">
+          <div class="card">
+            <div class="card-image">🔌</div>
+            <h3>Зарядное устройство</h3>
+            <p>Быстрая зарядка 65 Вт, Type-C, 2 порта</p>
+            <span class="price">990 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+          <div class="card">
+            <div class="card-image">🎒</div>
+            <h3>Городской рюкзак</h3>
+            <p>Водонепроницаемый, отдел для ноутбука 15.6"</p>
+            <span class="price">1 490 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+          <div class="card">
+            <div class="card-image">📱</div>
+            <h3>Чехол для телефона</h3>
+            <p>Силиконовый, противоударный, разные цвета</p>
+            <span class="price">490 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+        </div>
+
+        <!-- Категория 3: Для дома -->
+        <h3 class="category-title">Для дома</h3>
+        <div class="product-grid">
+          <div class="card">
+            <div class="card-image">💡</div>
+            <h3>Умная лампа</h3>
+            <p>RGB-подсветка, управление со смартфона, E27</p>
+            <span class="price">890 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+          <div class="card">
+            <div class="card-image">🧹</div>
+            <h3>Робот-пылесос</h3>
+            <p>Автономный, картографирование, 90 мин работы</p>
+            <span class="price">7 990 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+          <div class="card">
+            <div class="card-image">🌡️</div>
+            <h3>Метеостанция</h3>
+            <p>Температура, влажность, прогноз, Bluetooth</p>
+            <span class="price">1 290 ₽</span>
+            <button class="btn-small">В корзину</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= О НАС ================= -->
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title">О нас</h2>
+        <div class="about-content">
+          <p><strong>SafMarket</strong> — это онлайн-магазин, где мы собираем лучшие товары по честным ценам. Мы работаем напрямую с производителями, поэтому предлагаем то, что действительно стоит своих денег.</p>
+          <ul class="about-list">
+            <li>✅ Только проверенные товары</li>
+            <li>✅ Доставка по всей России</li>
+            <li>✅ Гарантия на все товары</li>
+            <li>✅ Возврат в течение 14 дней</li>
+            <li>✅ Поддержка 24/7</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= КОНТАКТЫ ================= -->
+    <section id="contacts" class="contacts">
+      <div class="container">
+        <h2 class="section-title">Контакты</h2>
+        <div class="contacts-content">
+          <div class="contact-item">
+            <span class="contact-icon">📞</span>
+            <h3>Телефон</h3>
+            <a href="tel:+79523201359" class="contact-link">+7 (952) 320-13-59</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📍</span>
+            <h3>Адрес</h3>
+            <p>Россия, Пермский край, Звёздный</p>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">🕒</span>
+            <h3>Часы работы</h3>
+            <p>Ежедневно, 9:00 — 21:00</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= ПОДВАЛ ================= -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <a href="#home" class="logo-footer">SafMarket</a>
+      <p>&copy; 2024 SafMarket. Все права защищены.</p>
+      <a href="tel:+79523201359" class="footer-phone">+7 (952) 320-13-59</a>
+    </div>
+  </footer>
+
+</body>
+</html>

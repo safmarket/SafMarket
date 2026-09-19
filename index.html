@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>SafMarket — Электроника в Перми. Купить и продать</title>
+  <meta name="description" content="SafMarket — покупаю и продаю электронику в Перми. Каталог техники, личная встреча, проверка на месте. Без доставки, без рисков." />
+  <meta name="keywords" content="электроника Пермь, купить электронику Пермь, продать телефон Пермь, б/у техника Пермь, SafMarket" />
+  <meta property="og:title" content="SafMarket — Электроника в Перми" />
+  <meta property="og:description" content="Покупаю и продаю электронику в Перми. Личная встреча, проверка на месте." />
+  <meta property="og:type" content="website" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= ШАПКА ================= -->
+  <header class="header">
+    <div class="container header-content">
+      <a href="#home" class="logo">SafMarket</a>
+      <nav class="nav">
+        <a href="#home">Главная</a>
+        <a href="#catalog">Каталог</a>
+        <a href="#cart">Корзина <span id="cart-count" class="cart-count">0</span></a>
+        <a href="#how">Как заказать</a>
+        <a href="#buyback">Продать</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= ГЛАВНАЯ ================= -->
+  <section id="home" class="hero">
+    <div class="container hero-wrapper">
+      <div class="hero-left">
+        <div class="store-photo-wrapper">
+          <img src="store.jpg" alt="Магазин SafMarket в Перми" class="store-photo"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="store-photo-fallback" style="display:none;">
+            <span>📷 Фото магазина</span>
+            <span class="fallback-hint">Положите store.jpg рядом с index.html</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <h1>Добро пожаловать в <span class="accent">SafMarket</span></h1>
+        <p class="hero-subtitle">Покупаю и продаю электронику в Перми. Находите технику в каталоге — встречаемся лично, проверяете на месте и забираете. Или предлагаете свой товар на продажу — осматриваю и оплачиваю сразу. Честно, без рисков, без доставки.</p>
+
+        <div class="hero-buttons">
+          <a href="#catalog" class="btn">Перейти к товарам</a>
+          <a href="#buyback" class="btn btn-sell">Продать товар</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= КАТАЛОГ ================= -->
+  <section id="catalog" class="products">
+    <div class="container">
+      <h2 class="section-title">Каталог электроники</h2>
+      <p class="section-subtitle">Нажмите на товар, чтобы увидеть подробности</p>
+
+      <div class="catalog-filters">
+        <input type="text" id="search-input" class="search-input" placeholder="Поиск по названию..." />
+
+        <div class="filter-row">
+          <button class="filter-btn active" data-filter="category" data-value="all">Все</button>
+          <button class="filter-btn" data-filter="category" data-value="audio">Аудио</button>
+          <button class="filter-btn" data-filter="category" data-value="wearables">Носимое</button>
+          <button class="filter-btn" data-filter="category" data-value="accessories">Аксессуары</button>
+        </div>
+
+        <div class="filter-row">
+          <button class="filter-btn active" data-filter="price" data-value="all">Любая цена</button>
+          <button class="filter-btn" data-filter="price" data-value="0-2000">до 2 000 ₽</button>
+          <button class="filter-btn" data-filter="price" data-value="2000-5000">2 000–5 000 ₽</button>
+          <button class="filter-btn" data-filter="price" data-value="5000+">от 5 000 ₽</button>
+        </div>
+      </div>
+
+      <div id="product-grid" class="product-grid"></div>
+
+      <div id="no-results" class="no-results" style="display:none;">
+        <p>Ничего не найдено</p>
+        <p class="no-results-hint">Попробуйте изменить поиск или фильтры</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= СТРАНИЦА ТОВАРА ================= -->
+  <section id="product-page" class="product-page" style="display:none;">
+    <div class="container">
+      <button class="btn-back" onclick="showCatalog()">&#8592; Назад к каталогу</button>
+      <div id="product-page-content"></div>
+    </div>
+  </section>
+
+  <!-- ================= КОРЗИНА ================= -->
+  <section id="cart" class="cart">
+    <div class="container">
+      <h2 class="section-title">Ваша корзина</h2>
+      <p class="section-subtitle">Товары, выбранные для личной встречи</p>
+
+      <div id="cart-empty" class="cart-empty">
+        <span class="cart-empty-icon">🛒</span>
+        <p>Корзина пуста</p>
+        <p class="cart-empty-hint">Добавьте товары из каталога</p>
+        <a href="#catalog" class="btn">Перейти к товарам</a>
+      </div>
+
+      <div id="cart-items" class="cart-grid" style="display:none;"></div>
+
+      <div id="cart-total" class="cart-total" style="display:none;">
+        <span>Итого:</span>
+        <strong id="total-price">0 ₽</strong>
+      </div>
+
+      <div id="cart-actions" class="cart-actions" style="display:none;">
+        <button class="btn-clear" onclick="clearCart()">Очистить корзину</button>
+        <button class="btn-buy" onclick="openCheckout()">Купить</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= МОДАЛЬНОЕ ОКНО «КУПИТЬ» ================= -->
+  <div id="checkout-modal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeCheckout()">&times;</button>
+      <h2 class="modal-title">Как купить</h2>
+      <div class="modal-body">
+
+        <div class="modal-step">
+          <span class="modal-icon">📦</span>
+          <h3>Ваш заказ</h3>
+          <div id="modal-order-items"></div>
+          <div id="modal-order-total"></div>
+        </div>
+
+        <!-- Условия сделки -->
+        <div class="deal-terms">
+          <h3 class="deal-terms-title">Условия сделки</h3>
+          <div class="deal-terms-grid">
+            <div class="deal-term"><span class="deal-term-icon">🚫</span> Без доставки</div>
+            <div class="deal-term"><span class="deal-term-icon">↩️</span> Без возврата</div>
+            <div class="deal-term"><span class="deal-term-icon">✅</span> Проверка на месте</div>
+            <div class="deal-term"><span class="deal-term-icon">💰</span> Оплата: наличные / перевод</div>
+          </div>
+        </div>
+
+        <div class="modal-step">
+          <span class="modal-icon">💬</span>
+          <h3>Свяжитесь со мной</h3>
+          <p>Назовите товар, который хотите купить. Желательно отправьте скриншот из каталога. Уточните наличие — экономим время.</p>
+        </div>
+
+        <div class="modal-step">
+          <span class="modal-icon">📍</span>
+          <h3>Встреча в Перми</h3>
+          <p>Договариваемся об удобном месте. Проверяете товар на месте. Оплата наличными или переводом.</p>
+        </div>
+
+        <div class="modal-rules">
+          <h3 class="modal-rules-title">⚠️ Важные моменты</h3>
+          <ul class="modal-rules-list">
+            <li><strong>Без гарантий</strong> — всё проверяется перед покупкой на месте.</li>
+            <li><strong>Без торга</strong> — цены окончательные.</li>
+            <li><strong>Самозанятый (НПД)</strong> — ИНН 594704086210. Чек через «Мой налог» по запросу.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-send-order btn-tg" onclick="sendOrderToTelegram()">
+          <img src="telegram.webp" alt="Telegram" class="social-icon-img social-icon-btn" />
+          <span>Отправить заказ в Telegram</span>
+        </button>
+
+        <button class="btn btn-send-order btn-vk" onclick="sendOrderToVK()">
+          <img src="vk.webp" alt="ВКонтакте" class="social-icon-img social-icon-btn" />
+          <span>Отправить заказ в ВКонтакте</span>
+        </button>
+
+        <a href="tel:+79523201359" class="btn btn-phone">
+          <span>📞 +7 (952) 320-13-59</span>
+        </a>
+
+        <button class="btn-close-modal" onclick="closeCheckout()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= МОДАЛЬНОЕ ОКНО «ПРОДАТЬ» ================= -->
+  <div id="sell-modal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeSell()">&times;</button>
+      <h2 class="modal-title">Как продать товар</h2>
+      <div class="modal-body">
+
+        <div class="modal-step">
+          <span class="modal-icon">💬</span>
+          <h3>Свяжитесь со мной</h3>
+          <p>Опишите товар и его состояние. Назовите вашу цену. Желательно отправьте фото. Если несколько товаров — можно списком.</p>
+        </div>
+
+        <div class="modal-step">
+          <span class="modal-icon">🤝</span>
+          <h3>Встреча и оплата</h3>
+          <p>Договариваемся о встрече в Перми. Я осматриваю товар на месте. Если всё устраивает — оплачиваю сразу наличными или переводом.</p>
+        </div>
+
+        <div class="modal-rules modal-rules-buyback">
+          <h3 class="modal-rules-title">📋 Правила</h3>
+          <ul class="modal-rules-list">
+            <li><strong>Опишите честно</strong> — дефекты и неисправности указывайте сразу.</li>
+            <li><strong>Несколько товаров</strong> — рассмотрю комплектно, заберу одним выездом.</li>
+            <li><strong>Самозанятый (НПД)</strong> — ИНН 594704086210. Чек через «Мой налог» по запросу.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-send-order btn-tg" onclick="sendSellToTelegram()">
+          <img src="telegram.webp" alt="Telegram" class="social-icon-img social-icon-btn" />
+          <span>Написать в Telegram</span>
+        </button>
+
+        <button class="btn btn-send-order btn-vk" onclick="sendSellToVK()">
+          <img src="vk.webp" alt="ВКонтакте" class="social-icon-img social-icon-btn" />
+          <span>Написать в ВКонтакте</span>
+        </button>
+
+        <a href="tel:+79523201359" class="btn btn-phone">
+          <span>📞 +7 (952) 320-13-59</span>
+        </a>
+
+        <button class="btn-close-modal" onclick="closeSell()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= КАК ЗАКАЗАТЬ ================= -->
+  <section id="how" class="how">
+    <div class="container">
+      <h2 class="section-title">Как заказать</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Выбираете товар</h3>
+          <p>Нажимаете на товар в каталоге, читаете описание</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Связываетесь</h3>
+          <p>Отправляете заказ через кнопку — в Telegram или ВК</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Встречаемся</h3>
+          <p>Договариваемся о месте в Перми, проверяете товар</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Оплачиваете</h3>
+          <p>Наличные или перевод на месте — цена окончательная</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ПРОДАТЬ ТОВАР ================= -->
+  <section id="buyback" class="buyback">
+    <div class="container">
+      <h2 class="section-title">Продать товар</h2>
+      <p class="section-subtitle">Покупаю электронику у жителей Перми</p>
+      <div class="buyback-content">
+        <div class="buyback-text">
+          <p>Есть электроника, которую хотите продать? Напишите — опишите товар, состояние и цену. Чем подробнее, тем быстрее договоримся.</p>
+          <p>Несколько вещей — рассмотрю комплектно, заберу одним выездом. Встречаемся лично в Перми, осматриваю и оплачиваю на месте.</p>
+          <ul class="about-list">
+            <li>📱 Телефоны, наушники, колонки, часы и другая электроника</li>
+            <li>📦 Несколько товаров — рассмотрю комплектно</li>
+            <li>🤝 Встреча в Перми, осмотр и оплата на месте</li>
+            <li>💰 Наличные или перевод</li>
+          </ul>
+          <button class="btn btn-sell" onclick="openSell()">Продать товар</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ВАЖНЫЕ МОМЕНТЫ ================= -->
+  <section id="rules" class="rules">
+    <div class="container">
+      <h2 class="section-title">Важные моменты</h2>
+      <p class="section-subtitle">Пожалуйста, прочтите перед встречей</p>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <span class="rule-icon">✅</span>
+          <h3>Самозанятый (НПД)</h3>
+          <p>Работаю официально. ИНН 594704086210. Чек через «Мой налог» по запросу.</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">❌</span>
+          <h3>Без гарантий</h3>
+          <p>Гарантий нет. Всё можно проверить перед покупкой на месте.</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">💰</span>
+          <h3>Без торга</h3>
+          <p>Цены окончательные. Ставлю честную цену сразу.</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">💬</span>
+          <h3>Уточняйте наличие</h3>
+          <p>Перед встречей напишите — подтвердим наличие товара.</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">🚫</span>
+          <h3>Спам = блокировка</h3>
+          <p>Спам, флуд и нежелательный контент — сразу блокирую.</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">🤝</span>
+          <h3>Личная встреча</h3>
+          <p>Без доставки. Встречаемся в Перми, всё проверяем лично.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq" class="faq">
+    <div class="container">
+      <h2 class="section-title">Частые вопросы</h2>
+      <p class="section-subtitle">Коротко о главном</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Как проверить товар перед покупкой?</span>
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Встречаемся лично в Перми. Вы полностью осматриваете товар, проверяете все функции, подключаете, тестируете — сколько нужно, столько и проверяете. Только после этого принимаете решение.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Что если товар не подойдёт после покупки?</span>
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Возврат и обмен не предусмотрены. Именно поэтому важно всё проверить на месте перед оплатой. Если что-то не устраивает — просто не покупаете, никаких обязательств.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Как быстро вы отвечаете?</span>
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Обычно отвечаю в течение часа в рабочее время. Вечером и ночью может быть задержка, но обязательно отвечу.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Можно ли поторговаться?</span>
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Нет, цены окончательные. Я стараюсь сразу ставить честную и адекватную цену, поэтому торг не предусмотрен.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Есть ли доставка?</span>
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Нет, доставки нет. Встречаемся лично в Перми. Это безопаснее для обеих сторон — вы видите товар перед оплатой.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Выдаёте ли чек?</span>
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Да, работаю как самозанятый (НПД). ИНН 594704086210. Электронный чек отправлю через приложение «Мой налог» — просто попросите при покупке.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>В каком состоянии товары?</span>
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Состояние у каждого товара своё — подробно описано на странице товара. Если есть дефекты, я указываю их честно. На месте вы всё проверите сами.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ФОРМА ОБРАТНОЙ СВЯЗИ ================= -->
+  <section id="feedback" class="feedback">
+    <div class="container">
+      <h2 class="section-title">Написать мне</h2>
+      <p class="section-subtitle">Заполните форму — я свяжусь с вами</p>
+      <div class="feedback-form-wrapper">
+        <form class="feedback-form" id="feedback-form" onsubmit="submitFeedback(event)">
+          <div class="form-group">
+            <label for="form-purpose">Цель обращения</label>
+            <select id="form-purpose" class="form-input" required>
+              <option value="">Выберите вариант</option>
+              <option value="Хочу купить">Хочу купить</option>
+              <option value="Хочу продать">Хочу продать</option>
+              <option value="Уточнить наличие">Уточнить наличие</option>
+              <option value="Другое">Другое</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="form-product">Товар / модель</label>
+            <input type="text" id="form-product" class="form-input" placeholder="Например: JBL Flip 6" />
+          </div>
+          <div class="form-group">
+            <label for="form-name">Ваше имя</label>
+            <input type="text" id="form-name" class="form-input" placeholder="Как к вам обращаться" required />
+          </div>
+          <div class="form-group">
+            <label for="form-contact">Телефон или ник в мессенджере</label>
+            <input type="text" id="form-contact" class="form-input" placeholder="Например: +7 999 123-45-67 или @username" required />
+          </div>
+          <div class="form-group">
+            <label for="form-message">Комментарий</label>
+            <textarea id="form-message" class="form-input form-textarea" rows="3" placeholder="Дополнительная информация"></textarea>
+          </div>
+          <div class="form-consent">
+            <label class="consent-label">
+              <input type="checkbox" id="form-consent-checkbox" required />
+              <span>Отправляя форму, я соглашаюсь на обработку персональных данных для связи по сделке</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-feedback">Отправить</button>
+        </form>
+        <div id="feedback-success" class="feedback-success" style="display:none;">
+          <span class="feedback-success-icon">✅</span>
+          <h3>Заявка отправлена!</h3>
+          <p>Я свяжусь с вами в ближайшее время.</p>
+          <button class="btn-close-modal" onclick="resetFeedback()">Отправить ещё одну</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= КОНТАКТЫ ================= -->
+  <section id="contacts" class="contacts">
+    <div class="container">
+      <h2 class="section-title">Контакты</h2>
+      <div class="contacts-content">
+        <div class="contact-item">
+          <span class="contact-icon">📞</span>
+          <h3>Телефон</h3>
+          <a href="tel:+79523201359" class="contact-link">+7 (952) 320-13-59</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <h3>Место встречи</h3>
+          <p>Пермь</p>
+          <p class="contact-sub">Договариваемся индивидуально</p>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">💬</span>
+          <h3>ВК и Telegram</h3>
+          <div class="contact-social">
+            <a href="https://vk.ru/saftorg1" target="_blank" rel="noopener" class="contact-social-link">
+              <img src="vk.webp" alt="ВКонтакте" class="social-icon-img" />
+              <span>ВКонтакте</span>
+            </a>
+            <a href="https://t.me/safamerka" target="_blank" rel="noopener" class="contact-social-link">
+              <img src="telegram.webp" alt="Telegram" class="social-icon-img" />
+              <span>Telegram</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ПОДВАЛ ================= -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <a href="#home" class="logo-footer">SafMarket</a>
+      <p>&copy; 2026 SafMarket. Электроника в Перми.</p>
+      <p class="footer-status">✅ Самозанятый (НПД) · ИНН 594704086210 · 🧾 Чек через «Мой налог»</p>
+      <div class="footer-social">
+        <a href="https://vk.ru/saftorg1" target="_blank" rel="noopener" class="footer-social-link">
+          <img src="vk.webp" alt="ВКонтакте" class="social-icon-img" />
+        </a>
+        <a href="https://t.me/safamerka" target="_blank" rel="noopener" class="footer-social-link">
+          <img src="telegram.webp" alt="Telegram" class="social-icon-img" />
+        </a>
+        <a href="tel:+79523201359" class="footer-social-text">+7 (952) 320-13-59</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    var products = [
+      {
+        id: 'jbl-flip6', name: 'JBL Flip 6', icon: '🔊', category: 'audio', price: 2490,
+        short: 'Портативная колонка, Bluetooth 5.1, влагозащита IP67, до 12 часов работы.',
+        full: 'Портативная колонка JBL Flip 6. Bluetooth 5.1, влагозащита IP67 — можно брать в душ и на пляж. До 12 часов работы от одного заряда. Стерео-пара — можно соединить две колонки для объёмного звука. Мощный бас, чистый звук на любой громкости. Зарядка через USB-C.',
+        specs: [['Bluetooth','5.1'],['Влагозащита','IP67'],['Время работы','до 12 часов'],['Зарядка','USB-C'],['Стерео-пара','Да'],['Вес','550 г']],
+        video: ''
+      },
+      {
+        id: 'xiaomi-watch', name: 'Xiaomi Redmi Watch 3 Active', icon: '⌚', category: 'wearables', price: 3990,
+        short: 'Смарт-часы, шагомер, пульсометр, SpO2, уведомления, до 14 дней работы.',
+        full: 'Смарт-часы Xiaomi Redmi Watch 3 Active. Большой 1.8-дюймовый дисплей. Шагомер, пульсометр, датчик SpO2 (кислород в крови). Уведомления с телефона, контроль сна. До 14 дней работы от одного заряда. Влагозащита 5 ATM — можно плавать. Более 100 спортивных режимов.',
+        specs: [['Дисплей','1.8"'],['Пульсометр','Да'],['SpO2','Да'],['Время работы','до 14 дней'],['Влагозащита','5 ATM'],['Спортрежимы','100+']],
+        video: ''
+      },
+      {
+        id: 'sony-xm4', name: 'Sony WH-1000XM4', icon: '🎧', category: 'audio', price: 29990,
+        short: 'Беспроводные наушники с активным шумоподавлением, 30 часов работы, быстрая зарядка.',
+        full: 'Беспроводные наушники Sony WH-1000XM4. Лучшее в классе активное шумоподавление. До 30 часов работы от заряда. Быстрая зарядка — 10 минут дают 5 часов музыки. Сенсорное управление. Автоматическая пауза при снятии. Мультипоинт — подключение к двум устройствам одновременно. Складная конструкция, чехол в комплекте.',
+        specs: [['Шумоподавление','Активное (ANC)'],['Время работы','до 30 часов'],['Быстрая зарядка','10 мин = 5 часов'],['Мультипоинт','Да'],['Управление','Сенсорное'],['Чехол','В комплекте']],
+        video: ''
+      },
+      {
+        id: 'baseus-65w', name: 'Baseus GaN 65W', icon: '🔌', category: 'accessories', price: 1990,
+        short: 'Зарядное устройство, GaN-технология, 2 порта Type-C + USB-A, быстрая зарядка.',
+        full: 'Зарядное устройство Baseus GaN 65W. Технология GaN — компактнее и быстрее обычных зарядок. 2 порта Type-C и 1 USB-A — можно заряжать три устройства одновременно. Быстрая зарядка для телефонов (PD, QC), планшетов и ноутбуков. Входное напряжение 100–240V — подходит для путешествий.',
+        specs: [['Мощность','65W'],['Технология','GaN'],['Порты','2× Type-C, 1× USB-A'],['Быстрая зарядка','PD, QC'],['Вход','100–240V'],['Одновременно','3 устройства']],
+        video: ''
+      },
+      {
+        id: 'havit-m9037', name: 'Havit M9037', icon: '🎧', category: 'audio', price: 1990,
+        short: 'Проводная гарнитура с микрофоном, шумоподавление, разъём 3.5 мм.',
+        full: 'Проводная гарнитура Havit M9037. Удобные мягкие амбушюры — можно носить часами без усталости. Микрофон с шумоподавлением — голос звучит чисто, без фона. Разъём 3.5 мм — подходит для ПК, ноутбука, телефона. Регулируемое оголовье. Подключение и игра — драйверы не нужны.',
+        specs: [['Тип','Проводная'],['Разъём','3.5 мм'],['Микрофон','С шумоподавлением'],['Амбушюры','Мягкие'],['Оголовье','Регулируемое'],['Драйверы','Не нужны']],
+        video: ''
+      },
+      {
+        id: 'ugreen-hub', name: 'Ugreen USB-C Hub 7-в-1', icon: '💻', category: 'accessories', price: 1490,
+        short: 'USB-хаб, 7 портов: HDMI 4K, USB 3.0, SD/microSD, Type-C PD.',
+        full: 'USB-хаб Ugreen USB-C Hub 7-в-1. 7 портов в одном компактном устройстве: HDMI 4K (вывод на монитор или телевизор), USB 3.0 (флешки, клавиатура, мышь), слоты SD и microSD, Type-C с поддержкой Power Delivery — заряжает ноутбук через хаб. Подходит для MacBook, ноутбуков и планшетов с Type-C.',
+        specs: [['Портов','7'],['HDMI','4K'],['USB','3.0'],['SD/microSD','Да'],['Type-C PD','Да'],['Совместимость','MacBook, ноутбуки, планшеты']],
+        video: ''
+      }
+    ];
+
+    /* ===== ФИЛЬТРЫ ===== */
+    var activeFilters = { category: 'all', price: 'all' };
+
+    function applyFilters() {
+      var search = document.getElementById('search-input').value.toLowerCase().trim();
+      var grid = document.getElementById('product-grid');
+      var noResults = document.getElementById('no-results');
+      var html = '', found = 0;
+      products.forEach(function(p) {
+        var matchesSearch = !search || p.name.toLowerCase().indexOf(search) !== -1;
+        var matchesCategory = activeFilters.category === 'all' || p.category === activeFilters.category;
+        var matchesPrice = true;
+        if (activeFilters.price !== 'all') {
+          if (activeFilters.price === '0-2000') matchesPrice = p.price < 2000;
+          else if (activeFilters.price === '2000-5000') matchesPrice = p.price >= 2000 && p.price <= 5000;
+          else if (activeFilters.price === '5000+') matchesPrice = p.price > 5000;
+        }
+        if (matchesSearch && matchesCategory && matchesPrice) {
+          found++;
+          html += '<div class="card" onclick="openProduct(\'' + p.id + '\')">' +
+            '<div class="card-image">' + p.icon + '</div>' +
+            '<h3 class="model-name">' + p.name + '</h3>' +
+            '<p class="description">' + p.short + '</p>' +
+            '<span class="price">' + p.price.toLocaleString('ru-RU') + ' ₽</span>' +
+            '<button class="btn-small" onclick="event.stopPropagation(); addToCart(\'' + p.id + '\')">В корзину</button>' +
+          '</div>';
+        }
+      });
+      if (found === 0) { grid.innerHTML = ''; noResults.style.display = 'block'; }
+      else { grid.innerHTML = html; noResults.style.display = 'none'; }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var searchInput = document.getElementById('search-input');
+      if (searchInput) searchInput.addEventListener('input', applyFilters);
+      document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ft = this.dataset.filter, fv = this.dataset.value;
+          document.querySelectorAll('.filter-btn[data-filter="' + ft + '"]').forEach(function(b) { b.classList.remove('active'); });
+          this.classList.add('active');
+          activeFilters[ft] = fv;
+          applyFilters();
+        });
+      });
+    });
+
+    /* ===== СТРАНИЦА ТОВАРА ===== */
+    function openProduct(id) {
+      var p = products.find(function(item) { return item.id === id; });
+      if (!p) return;
+      var specsHtml = '';
+      if (p.specs && p.specs.length > 0) {
+        specsHtml = '<div class="product-specs"><h3>Характеристики</h3><table class="specs-table">';
+        p.specs.forEach(function(s) { specsHtml += '<tr><td class="specs-label">' + s[0] + '</td><td class="specs-value">' + s[1] + '</td></tr>'; });
+        specsHtml += '</table></div>';
+      }
+      var videoHtml = '';
+      if (p.video) {
+        videoHtml = '<div class="product-video"><h3>Видео товара</h3><video controls preload="metadata" class="product-video-player"><source src="' + p.video + '" type="video/mp4" /></video></div>';
+      }
+      var relatedHtml = '<div class="product-related"><h3>Похожие товары</h3><div class="related-grid">';
+      var related = products.filter(function(item) { return item.id !== p.id && item.category === p.category; }).slice(0, 3);
+      if (related.length === 0) related = products.filter(function(item) { return item.id !== p.id; }).slice(0, 3);
+      related.forEach(function(r) {
+        relatedHtml += '<div class="card related-card" onclick="openProduct(\'' + r.id + '\')"><div class="card-image">' + r.icon + '</div><h3 class="model-name">' + r.name + '</h3><span class="price">' + r.price.toLocaleString('ru-RU') + ' ₽</span></div>';
+      });
+      relatedHtml += '</div></div>';
+
+      var dealTermsHtml = '<div class="deal-terms"><h3 class="deal-terms-title">Условия сделки</h3><div class="deal-terms-grid">' +
+        '<div class="deal-term"><span class="deal-term-icon">🚫</span> Без доставки</div>' +
+        '<div class="deal-term"><span class="deal-term-icon">↩️</span> Без возврата</div>' +
+        '<div class="deal-term"><span class="deal-term-icon">✅</span> Проверка на месте</div>' +
+        '<div class="deal-term"><span class="deal-term-icon">💰</span> Оплата: наличные / перевод</div>' +
+        '</div></div>';
+
+      var html = '<div class="product-page-wrapper"><div class="product-page-main">' +
+        '<div class="product-page-header"><div class="product-page-icon">' + p.icon + '</div>' +
+        '<div class="product-page-info"><h2 class="product-page-name">' + p.name + '</h2>' +
+        '<span class="product-page-price">' + p.price.toLocaleString('ru-RU') + ' ₽</span></div></div>' +
+        '<div class="product-page-body"><p class="product-page-desc">' + p.full + '</p>' + specsHtml + videoHtml + dealTermsHtml +
+        '<div class="product-page-actions">' +
+          '<button class="btn" onclick="addToCart(\'' + p.id + '\')">В корзину</button>' +
+          '<button class="btn btn-send-order btn-tg" onclick="sendSingleOrderToTelegram(\'' + p.id + '\')"><img src="telegram.webp" alt="Telegram" class="social-icon-img social-icon-btn" /><span>Купить в Telegram</span></button>' +
+          '<button class="btn btn-send-order btn-vk" onclick="sendSingleOrderToVK(\'' + p.id + '\')"><img src="vk.webp" alt="ВКонтакте" class="social-icon-img social-icon-btn" /><span>Купить в ВК</span></button>' +
+        '</div></div></div>' + relatedHtml + '</div>';
+
+      document.getElementById('product-page-content').innerHTML = html;
+      document.getElementById('product-page').style.display = 'block';
+      document.getElementById('catalog').style.display = 'none';
+      window.scrollTo({ top: document.getElementById('product-page').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    function showCatalog() {
+      document.getElementById('product-page').style.display = 'none';
+      document.getElementById('catalog').style.display = 'block';
+      window.scrollTo({ top: document.getElementById('catalog').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    /* ===== КОРЗИНА ===== */
+    var cart = [];
+    function saveCart() { try { localStorage.setItem('safmarket_cart', JSON.stringify(cart)); } catch(e) {} }
+    function loadCart() { try { var s = localStorage.getItem('safmarket_cart'); if (s) cart = JSON.parse(s); } catch(e) { cart = []; } }
+
+    function addToCart(id) {
+      var p = products.find(function(item) { return item.id === id; });
+      if (!p) return;
+      cart.push({ id: p.id, name: p.name, price: p.price, icon: p.icon, desc: p.short, uid: Date.now() + '-' + Math.random().toString(36).substr(2, 9) });
+      saveCart(); renderCart();
+    }
+    function removeFromCart(uid) { cart = cart.filter(function(i) { return i.uid !== uid; }); saveCart(); renderCart(); }
+    function clearCart() { cart = []; saveCart(); renderCart(); }
+
+    function renderCart() {
+      var e = document.getElementById('cart-empty'), i = document.getElementById('cart-items');
+      var t = document.getElementById('cart-total'), a = document.getElementById('cart-actions');
+      var c = document.getElementById('cart-count'), tp = document.getElementById('total-price');
+      c.textContent = cart.length;
+      if (cart.length === 0) { e.style.display='flex'; i.style.display='none'; t.style.display='none'; a.style.display='none'; return; }
+      e.style.display='none'; i.style.display='grid'; t.style.display='flex'; a.style.display='flex';
+      var html = '', sum = 0;
+      cart.forEach(function(item) {
+        sum += item.price;
+        html += '<div class="card cart-card"><div class="card-image">' + item.icon + '</div><h3 class="model-name">' + item.name + '</h3><p class="description">' + item.desc + '</p><span class="price">' + item.price.toLocaleString('ru-RU') + ' ₽</span><button class="btn-remove" onclick="removeFromCart(\'' + item.uid + '\')">Удалить из корзины</button></div>';
+      });
+      i.innerHTML = html; tp.textContent = sum.toLocaleString('ru-RU') + ' ₽';
+    }
+
+    /* ===== ОТПРАВКА ЗАКАЗА ===== */
+    function openCheckout() {
+      var m = document.getElementById('checkout-modal');
+      var oi = document.getElementById('modal-order-items'), ot = document.getElementById('modal-order-total');
+      var sum = 0, html = '';
+      cart.forEach(function(item) { sum += item.price; html += '<div class="modal-order-row"><span>' + item.icon + ' ' + item.name + '</span><strong>' + item.price.toLocaleString('ru-RU') + ' ₽</strong></div>'; });
+      oi.innerHTML = html;
+      ot.innerHTML = '<div class="modal-order-total">Итого: <strong>' + sum.toLocaleString('ru-RU') + ' ₽</strong></div>';
+      m.style.display = 'flex';
+    }
+
+    function buildOrderMessage() {
+      var msg = '🛒 Заказ с сайта SafMarket\n\nТовары:\n', sum = 0;
+      cart.forEach(function(item, i) { sum += item.price; msg += (i+1) + '. ' + item.icon + ' ' + item.name + ' — ' + item.price.toLocaleString('ru-RU') + ' ₽\n'; });
+      msg += '\nИтого: ' + sum.toLocaleString('ru-RU') + ' ₽\n\nЗдравствуйте! Хочу купить эти товары. Подскажите, всё ли есть в наличии.';
+      return msg;
+    }
+    function buildSingleOrderMessage(id) {
+      var p = products.find(function(i) { return i.id === id; });
+      if (!p) return '';
+      return '🛒 Заказ с сайта SafMarket\n\n' + p.icon + ' ' + p.name + ' — ' + p.price.toLocaleString('ru-RU') + ' ₽\n\nЗдравствуйте! Хочу купить этот товар. Подскажите, есть ли в наличии.';
+    }
+    function sendOrderToTelegram() { window.open('https://t.me/safamerka?text=' + encodeURIComponent(buildOrderMessage()), '_blank'); }
+    function sendOrderToVK() { window.open('https://vk.me/saftorg1?text=' + encodeURIComponent(buildOrderMessage()), '_blank'); }
+    function sendSingleOrderToTelegram(id) { window.open('https://t.me/safamerka?text=' + encodeURIComponent(buildSingleOrderMessage(id)), '_blank'); }
+    function sendSingleOrderToVK(id) { window.open('https://vk.me/saftorg1?text=' + encodeURIComponent(buildSingleOrderMessage(id)), '_blank'); }
+    function buildSellMessage() { return '🤝 Предложение о продаже\n\nЗдравствуйте! Хочу продать электронику. Опишу товар, состояние и цену.'; }
+    function sendSellToTelegram() { window.open('https://t.me/safamerka?text=' + encodeURIComponent(buildSellMessage()), '_blank'); }
+    function sendSellToVK() { window.open('https://vk.me/saftorg1?text=' + encodeURIComponent(buildSellMessage()), '_blank'); }
+
+    function closeCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
+    function openSell() { document.getElementById('sell-modal').style.display = 'flex'; }
+    function closeSell() { document.getElementById('sell-modal').style.display = 'none'; }
+
+    /* ===== FAQ ===== */
+    function toggleFaq(btn) {
+      var a = btn.nextElementSibling, ar = btn.querySelector('.faq-arrow');
+      if (a.style.display === 'block') { a.style.display = 'none'; ar.textContent = '+'; }
+      else { a.style.display = 'block'; ar.textContent = '−'; }
+    }
+
+    /* ===== ФОРМА ===== */
+    function submitFeedback(event) {
+      event.preventDefault();
+      var purpose = document.getElementById('form-purpose').value;
+      var product = document.getElementById('form-product').value;
+      var name = document.getElementById('form-name').value;
+      var contact = document.getElementById('form-contact').value;
+      var message = document.getElementById('form-message').value;
+      var text = '📝 Заявка с сайта SafMarket\n\nЦель: ' + purpose + '\n';
+      if (product) text += 'Товар: ' + product + '\n';
+      text += 'Имя: ' + name + '\nКонтакт: ' + contact + '\n';
+      if (message) text += 'Комментарий: ' + message + '\n';
+      window.open('https://t.me/safamerka?text=' + encodeURIComponent(text), '_blank');
+      document.getElementById('feedback-form').style.display = 'none';
+      document.getElementById('feedback-success').style.display = 'flex';
+    }
+    function resetFeedback() {
+      document.getElementById('feedback-form').reset();
+      document.getElementById('feedback-form').style.display = 'block';
+      document.getElementById('feedback-success').style.display = 'none';
+    }
+
+    /* ===== ЗАКРЫТИЕ ===== */
+    document.addEventListener('click', function(e) {
+      if (e.target.id === 'checkout-modal') closeCheckout();
+      if (e.target.id === 'sell-modal') closeSell();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeCheckout(); closeSell(); }
+    });
+
+    /* ===== ИНИЦИАЛИЗАЦИЯ ===== */
+    loadCart(); applyFilters(); renderCart();
+  </script>
+
+</body>
+</html>
