@@ -25,7 +25,10 @@
   <header class="header">
     <div class="container header-content">
       <a href="#home" class="logo">SafMarket</a>
-      <nav class="nav">
+      <button class="burger" id="burger" onclick="toggleBurger()">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="nav">
         <a href="#home">Главная</a>
         <a href="#catalog">Каталог</a>
         <a href="#cart">Корзина <span id="cart-count" class="cart-count">0</span></a>
@@ -73,6 +76,7 @@
 
         <div class="filter-row">
           <button class="filter-btn active" data-filter="category" data-value="all">Все</button>
+          <button class="filter-btn" data-filter="category" data-value="phones">Телефоны</button>
           <button class="filter-btn" data-filter="category" data-value="audio">Аудио</button>
           <button class="filter-btn" data-filter="category" data-value="wearables">Носимое</button>
           <button class="filter-btn" data-filter="category" data-value="accessories">Аксессуары</button>
@@ -91,6 +95,18 @@
       <div id="no-results" class="no-results" style="display:none;">
         <p>Ничего не найдено</p>
         <p class="no-results-hint">Попробуйте изменить поиск или фильтры</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ПРОДАННЫЕ ТОВАРЫ ================= -->
+  <section id="sold" class="sold-section">
+    <div class="container">
+      <h2 class="section-title">Проданные товары</h2>
+      <p class="section-subtitle">Техника, которую уже забрали</p>
+      <div id="sold-grid" class="product-grid"></div>
+      <div id="sold-empty" class="no-results" style="display:none;">
+        <p>Проданных товаров пока нет</p>
       </div>
     </div>
   </section>
@@ -144,7 +160,6 @@
           <div id="modal-order-total"></div>
         </div>
 
-        <!-- Условия сделки -->
         <div class="deal-terms">
           <h3 class="deal-terms-title">Условия сделки</h3>
           <div class="deal-terms-grid">
@@ -172,7 +187,7 @@
           <ul class="modal-rules-list">
             <li><strong>Без гарантий</strong> — всё проверяется перед покупкой на месте.</li>
             <li><strong>Без торга</strong> — цены окончательные.</li>
-            <li><strong>Самозанятый (НПД)</strong> — ИНН 594704086210. Чек через «Мой налог» по запросу.</li>
+            <li><strong>Самозанятый (НПД)</strong> — ИНН 594704086210, чек через «Мой налог» по запросу.</li>
           </ul>
         </div>
 
@@ -219,7 +234,7 @@
           <ul class="modal-rules-list">
             <li><strong>Опишите честно</strong> — дефекты и неисправности указывайте сразу.</li>
             <li><strong>Несколько товаров</strong> — рассмотрю комплектно, заберу одним выездом.</li>
-            <li><strong>Самозанятый (НПД)</strong> — ИНН 594704086210. Чек через «Мой налог» по запросу.</li>
+            <li><strong>Самозанятый (НПД)</strong> — ИНН 594704086210, чек через «Мой налог» по запросу.</li>
           </ul>
         </div>
 
@@ -424,7 +439,7 @@
           </div>
           <div class="form-group">
             <label for="form-product">Товар / модель</label>
-            <input type="text" id="form-product" class="form-input" placeholder="Например: JBL Flip 6" />
+            <input type="text" id="form-product" class="form-input" placeholder="Например: iPhone 12" />
           </div>
           <div class="form-group">
             <label for="form-name">Ваше имя</label>
@@ -510,53 +525,89 @@
 
   <!-- ================= JAVASCRIPT ================= -->
   <script>
+    /* ===== ТОВАРЫ В ПРОДАЖЕ ===== */
     var products = [
       {
-        id: 'jbl-flip6', name: 'JBL Flip 6', icon: '🔊', category: 'audio', price: 2490,
-        short: 'Портативная колонка, Bluetooth 5.1, влагозащита IP67, до 12 часов работы.',
-        full: 'Портативная колонка JBL Flip 6. Bluetooth 5.1, влагозащита IP67 — можно брать в душ и на пляж. До 12 часов работы от одного заряда. Стерео-пара — можно соединить две колонки для объёмного звука. Мощный бас, чистый звук на любой громкости. Зарядка через USB-C.',
-        specs: [['Bluetooth','5.1'],['Влагозащита','IP67'],['Время работы','до 12 часов'],['Зарядка','USB-C'],['Стерео-пара','Да'],['Вес','550 г']],
+        id: 'iphone-12',
+        name: 'iPhone 12',
+        icon: '📱',
+        images: ['iphone12-1.jpg', 'iphone12-2.jpg'],
+        category: 'phones',
+        price: 9500,
+        short: '64GB, белый, аккумулятор 77%. В комплекте телефон и чехол.',
+        full: 'iPhone 12, 64GB, белый. Аккумулятор родной, 77%. В комплекте: телефон и чехол. Есть небольшая царапина на стекле — на работу не влияет.',
+        specs: [['Модель','iPhone 12'],['Память','64GB'],['Цвет','Белый'],['Аккумулятор','Родной, 77%'],['Комплект','Телефон, чехол']],
+        note: 'Есть небольшая царапина на стекле',
         video: ''
       },
       {
-        id: 'xiaomi-watch', name: 'Xiaomi Redmi Watch 3 Active', icon: '⌚', category: 'wearables', price: 3990,
-        short: 'Смарт-часы, шагомер, пульсометр, SpO2, уведомления, до 14 дней работы.',
-        full: 'Смарт-часы Xiaomi Redmi Watch 3 Active. Большой 1.8-дюймовый дисплей. Шагомер, пульсометр, датчик SpO2 (кислород в крови). Уведомления с телефона, контроль сна. До 14 дней работы от одного заряда. Влагозащита 5 ATM — можно плавать. Более 100 спортивных режимов.',
-        specs: [['Дисплей','1.8"'],['Пульсометр','Да'],['SpO2','Да'],['Время работы','до 14 дней'],['Влагозащита','5 ATM'],['Спортрежимы','100+']],
+        id: 'wireless-headphones',
+        name: 'Беспроводные наушники',
+        icon: '🎧',
+        images: ['headphones-1.jpg', 'headphones-2.jpg'],
+        category: 'audio',
+        price: 500,
+        short: 'Беспроводные, чёрные. Можно подключить по проводу, есть доп. разъёмы.',
+        full: 'Беспроводные наушники, чёрный цвет. Могут подключаться по проводу и имеют дополнительные разъёмы. Универсальный вариант для разных устройств.',
+        specs: [['Тип','Беспроводные'],['Цвет','Чёрный'],['Подключение','Беспроводное + по проводу'],['Доп. разъёмы','Да']],
+        note: 'Могут подключаться по проводу и имеют дополнительные разъёмы',
         video: ''
       },
       {
-        id: 'sony-xm4', name: 'Sony WH-1000XM4', icon: '🎧', category: 'audio', price: 29990,
-        short: 'Беспроводные наушники с активным шумоподавлением, 30 часов работы, быстрая зарядка.',
-        full: 'Беспроводные наушники Sony WH-1000XM4. Лучшее в классе активное шумоподавление. До 30 часов работы от заряда. Быстрая зарядка — 10 минут дают 5 часов музыки. Сенсорное управление. Автоматическая пауза при снятии. Мультипоинт — подключение к двум устройствам одновременно. Складная конструкция, чехол в комплекте.',
-        specs: [['Шумоподавление','Активное (ANC)'],['Время работы','до 30 часов'],['Быстрая зарядка','10 мин = 5 часов'],['Мультипоинт','Да'],['Управление','Сенсорное'],['Чехол','В комплекте']],
+        id: 'mi-band-5',
+        name: 'Xiaomi Mi Smart Band 5',
+        icon: '⌚',
+        images: ['miband5-1.jpg'],
+        category: 'wearables',
+        price: 300,
+        short: 'В комплекте часы и зарядка. Есть царапины на стекле.',
+        full: 'Xiaomi Mi Smart Band 5. В комплекте: часы и зарядка. Есть царапины на стекле — на работу не влияют.',
+        specs: [['Модель','Xiaomi Mi Smart Band 5'],['Комплект','Часы, зарядка'],['Состояние','Царапины на стекле']],
+        note: 'Есть царапины на стекле',
         video: ''
       },
       {
-        id: 'baseus-65w', name: 'Baseus GaN 65W', icon: '🔌', category: 'accessories', price: 1990,
-        short: 'Зарядное устройство, GaN-технология, 2 порта Type-C + USB-A, быстрая зарядка.',
-        full: 'Зарядное устройство Baseus GaN 65W. Технология GaN — компактнее и быстрее обычных зарядок. 2 порта Type-C и 1 USB-A — можно заряжать три устройства одновременно. Быстрая зарядка для телефонов (PD, QC), планшетов и ноутбуков. Входное напряжение 100–240V — подходит для путешествий.',
-        specs: [['Мощность','65W'],['Технология','GaN'],['Порты','2× Type-C, 1× USB-A'],['Быстрая зарядка','PD, QC'],['Вход','100–240V'],['Одновременно','3 устройства']],
-        video: ''
-      },
-      {
-        id: 'havit-m9037', name: 'Havit M9037', icon: '🎧', category: 'audio', price: 1990,
-        short: 'Проводная гарнитура с микрофоном, шумоподавление, разъём 3.5 мм.',
-        full: 'Проводная гарнитура Havit M9037. Удобные мягкие амбушюры — можно носить часами без усталости. Микрофон с шумоподавлением — голос звучит чисто, без фона. Разъём 3.5 мм — подходит для ПК, ноутбука, телефона. Регулируемое оголовье. Подключение и игра — драйверы не нужны.',
-        specs: [['Тип','Проводная'],['Разъём','3.5 мм'],['Микрофон','С шумоподавлением'],['Амбушюры','Мягкие'],['Оголовье','Регулируемое'],['Драйверы','Не нужны']],
-        video: ''
-      },
-      {
-        id: 'ugreen-hub', name: 'Ugreen USB-C Hub 7-в-1', icon: '💻', category: 'accessories', price: 1490,
-        short: 'USB-хаб, 7 портов: HDMI 4K, USB 3.0, SD/microSD, Type-C PD.',
-        full: 'USB-хаб Ugreen USB-C Hub 7-в-1. 7 портов в одном компактном устройстве: HDMI 4K (вывод на монитор или телевизор), USB 3.0 (флешки, клавиатура, мышь), слоты SD и microSD, Type-C с поддержкой Power Delivery — заряжает ноутбук через хаб. Подходит для MacBook, ноутбуков и планшетов с Type-C.',
-        specs: [['Портов','7'],['HDMI','4K'],['USB','3.0'],['SD/microSD','Да'],['Type-C PD','Да'],['Совместимость','MacBook, ноутбуки, планшеты']],
+        id: 'keyboard-k401',
+        name: 'Клавиатура K-401BU',
+        icon: '⌨️',
+        images: ['keyboard-1.jpg'],
+        category: 'accessories',
+        price: 300,
+        short: 'Проводная, после чистки, в хорошем состоянии. Подойдёт для офиса.',
+        full: 'Проводная клавиатура K-401BU. Была проведена чистка, в хорошем состоянии. Подойдёт для офисной работы.',
+        specs: [['Модель','K-401BU'],['Тип','Проводная'],['Состояние','После чистки, хорошее'],['Назначение','Для офиса']],
+        note: 'Была чистка, в хорошем состоянии, подойдёт для офиса',
         video: ''
       }
     ];
 
+    /* ===== ПРОДАННЫЕ ТОВАРЫ ===== */
+    var soldProducts = [];
+
+    /* ===== БУРГЕР-МЕНЮ ===== */
+    function toggleBurger() {
+      var nav = document.getElementById('nav');
+      var burger = document.getElementById('burger');
+      nav.classList.toggle('nav-open');
+      burger.classList.toggle('burger-active');
+    }
+    document.querySelectorAll('.nav a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        document.getElementById('nav').classList.remove('nav-open');
+        document.getElementById('burger').classList.remove('burger-active');
+      });
+    });
+
     /* ===== ФИЛЬТРЫ ===== */
     var activeFilters = { category: 'all', price: 'all' };
+
+    function renderCardImage(p) {
+      var fallback = p.icon || '📦';
+      if (p.images && p.images.length > 0) {
+        return '<img src="' + p.images[0] + '" alt="' + p.name + '" class="card-img" onerror="this.style.display=\'none\'" />' + fallback;
+      }
+      return fallback;
+    }
 
     function applyFilters() {
       var search = document.getElementById('search-input').value.toLowerCase().trim();
@@ -575,7 +626,7 @@
         if (matchesSearch && matchesCategory && matchesPrice) {
           found++;
           html += '<div class="card" onclick="openProduct(\'' + p.id + '\')">' +
-            '<div class="card-image">' + p.icon + '</div>' +
+            '<div class="card-image">' + renderCardImage(p) + '</div>' +
             '<h3 class="model-name">' + p.name + '</h3>' +
             '<p class="description">' + p.short + '</p>' +
             '<span class="price">' + p.price.toLocaleString('ru-RU') + ' ₽</span>' +
@@ -585,6 +636,29 @@
       });
       if (found === 0) { grid.innerHTML = ''; noResults.style.display = 'block'; }
       else { grid.innerHTML = html; noResults.style.display = 'none'; }
+    }
+
+    /* ===== ПРОДАННЫЕ ТОВАРЫ ===== */
+    function renderSoldProducts() {
+      var grid = document.getElementById('sold-grid');
+      var empty = document.getElementById('sold-empty');
+      if (soldProducts.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      var html = '';
+      soldProducts.forEach(function(p) {
+        html += '<div class="card sold-card">' +
+          '<div class="card-image">' + renderCardImage(p) + '</div>' +
+          '<span class="sold-badge">⛔ Продано</span>' +
+          '<h3 class="model-name">' + p.name + '</h3>' +
+          '<p class="description">' + p.short + '</p>' +
+          '<span class="price sold-price">' + p.price.toLocaleString('ru-RU') + ' ₽</span>' +
+        '</div>';
+      });
+      grid.innerHTML = html;
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -615,11 +689,28 @@
       if (p.video) {
         videoHtml = '<div class="product-video"><h3>Видео товара</h3><video controls preload="metadata" class="product-video-player"><source src="' + p.video + '" type="video/mp4" /></video></div>';
       }
+
+      /* Галерея фото */
+      var galleryHtml = '';
+      if (p.images && p.images.length > 0) {
+        galleryHtml = '<div class="product-gallery">';
+        p.images.forEach(function(img) {
+          galleryHtml += '<img src="' + img + '" alt="' + p.name + '" class="product-gallery-img" onerror="this.style.display=\'none\'" />';
+        });
+        galleryHtml += '</div>';
+      }
+
+      /* Примечание */
+      var noteHtml = '';
+      if (p.note) {
+        noteHtml = '<div class="product-note"><span class="product-note-icon">⚠️</span> <strong>Примечание:</strong> ' + p.note + '</div>';
+      }
+
       var relatedHtml = '<div class="product-related"><h3>Похожие товары</h3><div class="related-grid">';
       var related = products.filter(function(item) { return item.id !== p.id && item.category === p.category; }).slice(0, 3);
       if (related.length === 0) related = products.filter(function(item) { return item.id !== p.id; }).slice(0, 3);
       related.forEach(function(r) {
-        relatedHtml += '<div class="card related-card" onclick="openProduct(\'' + r.id + '\')"><div class="card-image">' + r.icon + '</div><h3 class="model-name">' + r.name + '</h3><span class="price">' + r.price.toLocaleString('ru-RU') + ' ₽</span></div>';
+        relatedHtml += '<div class="card related-card" onclick="openProduct(\'' + r.id + '\')"><div class="card-image">' + renderCardImage(r) + '</div><h3 class="model-name">' + r.name + '</h3><span class="price">' + r.price.toLocaleString('ru-RU') + ' ₽</span></div>';
       });
       relatedHtml += '</div></div>';
 
@@ -634,7 +725,8 @@
         '<div class="product-page-header"><div class="product-page-icon">' + p.icon + '</div>' +
         '<div class="product-page-info"><h2 class="product-page-name">' + p.name + '</h2>' +
         '<span class="product-page-price">' + p.price.toLocaleString('ru-RU') + ' ₽</span></div></div>' +
-        '<div class="product-page-body"><p class="product-page-desc">' + p.full + '</p>' + specsHtml + videoHtml + dealTermsHtml +
+        '<div class="product-page-body">' + galleryHtml +
+        '<p class="product-page-desc">' + p.full + '</p>' + noteHtml + specsHtml + videoHtml + dealTermsHtml +
         '<div class="product-page-actions">' +
           '<button class="btn" onclick="addToCart(\'' + p.id + '\')">В корзину</button>' +
           '<button class="btn btn-send-order btn-tg" onclick="sendSingleOrderToTelegram(\'' + p.id + '\')"><img src="telegram.webp" alt="Telegram" class="social-icon-img social-icon-btn" /><span>Купить в Telegram</span></button>' +
@@ -755,7 +847,7 @@
     });
 
     /* ===== ИНИЦИАЛИЗАЦИЯ ===== */
-    loadCart(); applyFilters(); renderCart();
+    loadCart(); applyFilters(); renderCart(); renderSoldProducts();
   </script>
 
 </body>
